@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: forum-project
+  datasource:
+    url: jdbc:postgresql://localhost:5432/form
+    username: postgres
+    password: ismoil_0709
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

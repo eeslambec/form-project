@@ -7,4 +7,6 @@ import uz.cus.forumproject.model.Form;
 @Service
 public interface FormService {
     String save(FormDto formDto);
+
+    Form validateToken(String token);
 }
