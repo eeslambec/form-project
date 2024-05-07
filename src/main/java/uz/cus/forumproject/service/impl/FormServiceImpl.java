@@ -27,7 +27,7 @@ import java.util.UUID;
 public class FormServiceImpl implements FormService {
     private final FormRepository formRepository;
     private final TokenServiceImpl tokenServiceImpl;
-    private final String BASE_URL = "http://localhost:8080";
+    private final String BASE_URL = "http://185.217.131.187:8080";
 
     @Override
     public String save(FormDto formDto) {
@@ -53,7 +53,7 @@ public class FormServiceImpl implements FormService {
     public String generateQRCode(final Form form) {
         String data = "https://auto-parts-six.vercel.app/user?token=" + tokenServiceImpl.generateToken(form);
         UUID uuid = UUID.randomUUID();
-        String location = FileSystemView.getFileSystemView().getHomeDirectory().getPath() + "/" + "/data/"+ form.getId() + uuid +".jpg";
+        String location = Paths.get("src", "main", "resources", "static", "data").toFile().getAbsolutePath() + "/" + form.getId() + uuid + ".jpg";
         BitMatrix bitMatrix = new MultiFormatWriter().encode(data, BarcodeFormat.QR_CODE, 500, 500);
         MatrixToImageWriter.writeToPath(bitMatrix, "jpg", Paths.get(location));
         return BASE_URL + "/form/qrcode/" + form.getId() + uuid + ".jpg";

@@ -30,7 +30,7 @@ public class FormController {
     @SneakyThrows
     @GetMapping("/qrcode/{filename}")
     public ResponseEntity<?> qrcode(@PathVariable String filename) {
-        Path path = Paths.get(FileSystemView.getFileSystemView().getHomeDirectory().getPath() + "/data" + filename);
+        Path path = Paths.get(Paths.get("src","main","resources","static","data").toAbsolutePath() + "/" + filename);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         InputStreamResource resource = new InputStreamResource(Files.newInputStream(path));
