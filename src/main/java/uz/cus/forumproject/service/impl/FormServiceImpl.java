@@ -20,6 +20,7 @@ import javax.crypto.SecretKey;
 import javax.swing.filechooser.FileSystemView;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -47,6 +48,11 @@ public class FormServiceImpl implements FormService {
         Claims claims = tokenServiceImpl.parseAllClaims(token);
         Long id = Long.parseLong(claims.getSubject());
         return formRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Token is invalid"));
+    }
+
+    @Override
+    public List<Form> getAll() {
+        return formRepository.findAll();
     }
 
     @SneakyThrows
