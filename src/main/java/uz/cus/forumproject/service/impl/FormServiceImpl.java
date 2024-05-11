@@ -2,24 +2,22 @@ package uz.cus.forumproject.service.impl;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import uz.cus.forumproject.dto.FormDto;
+import uz.cus.forumproject.dto.SendDto;
 import uz.cus.forumproject.model.Form;
 import uz.cus.forumproject.repo.FormRepository;
 import uz.cus.forumproject.service.FormService;
 
-import javax.crypto.SecretKey;
-import javax.swing.filechooser.FileSystemView;
+import java.net.URI;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,7 +38,22 @@ public class FormServiceImpl implements FormService {
                 .companyName(formDto.getCompanyName())
                 .phoneNumber(formDto.getPhoneNumber())
                 .build());
+         addToFile(form);
         return generateQRCode(form);
+    }
+
+    @Async
+    @SneakyThrows
+    public void addToFile(Form form) {
+        RestTemplate template = new RestTemplate();
+        String text = "Name : " + form.getFullName() + "\n" +
+                "Email : " + form.getEmail() + "\n" +
+                "Business : " + form.getBusiness() + "\n" +
+                "CompanyName : " + form.getCompanyName() + "\n" +
+                "PhoneNumber : " + form.getPhoneNumber() + "\n";
+        String url = "https://api.telegram.org/bot7159954472:AAGHuLDQlnzsAZZ_HsjLzVYomJrg7uRHjr0/sendMessage";
+        System.out.println(url);
+        template.postForObject(URI.create(url),new SendDto(1084271471L,text),Object.class);
     }
 
     @Override
