@@ -40,7 +40,7 @@ public class ExportXLSXFile {
             row.createCell(4).setCellValue(forms.get(i).getCompanyName());
             row.createCell(5).setCellValue(forms.get(i).getBusiness());
         }
-        Path UPLOAD_DIR = Path.of(System.getProperty("user.home") + "/" + "EXCEL"+ File.separator + "files" + File.separator);
+        Path UPLOAD_DIR = Path.of("/home/workdir/EXCEL" + File.separator + "files" + File.separator);
         FileOutputStream out;
         out = new FileOutputStream(UPLOAD_DIR + "form.xlsx");
         workbook.write(out);
