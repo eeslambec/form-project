@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class ExportXLSXFile {
 
     public String exportXLSXFile() throws IOException {
         List<Form> forms = formService.getAll();
+        Collections.shuffle(forms);
         for (int i = 0; i < columns.length; i++) {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(columns[i]);
